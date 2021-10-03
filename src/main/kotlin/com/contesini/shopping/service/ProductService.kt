@@ -5,7 +5,7 @@ import com.contesini.shopping.repository.ProductRepository
 import org.springframework.stereotype.Service
 
 @Service
-class ProductService(val productRepository: ProductRepository) {
+class ProductService(private val productRepository: ProductRepository) {
 
 
     fun getAll(): List<Product> = productRepository.findAll()

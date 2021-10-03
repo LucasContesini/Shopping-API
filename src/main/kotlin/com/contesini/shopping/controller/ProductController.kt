@@ -5,7 +5,7 @@ import com.contesini.shopping.service.ProductService
 import org.springframework.web.bind.annotation.*
 
 @RestController
-class ProductController(val productService: ProductService) {
+class ProductController(private val productService: ProductService) {
 
     @GetMapping("/products")
     fun getAll(): List<Product> = productService.getAll()

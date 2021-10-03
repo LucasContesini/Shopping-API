@@ -8,6 +8,4 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "product")
-data class Product(@Id @GeneratedValue val id: Long = 0, val name: String) {
-
-}
+data class Product(@Id @GeneratedValue val id: Long = 0, val name: String)

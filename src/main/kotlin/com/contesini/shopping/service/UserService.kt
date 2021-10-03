@@ -5,7 +5,7 @@ import com.contesini.shopping.repository.UserRepository
 import org.springframework.stereotype.Service
 
 @Service
-class UserService(val userRepository: UserRepository) {
+class UserService(private val userRepository: UserRepository) {
 
     fun getById(id: Long): User = userRepository.getById(id)
 

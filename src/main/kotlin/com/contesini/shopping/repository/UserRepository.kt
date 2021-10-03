@@ -7,5 +7,4 @@ import org.springframework.stereotype.Repository
 
 @Repository
 @EnableJpaRepositories
-interface UserRepository : JpaRepository<User, Long> {
-}
+interface UserRepository : JpaRepository<User, Long>
