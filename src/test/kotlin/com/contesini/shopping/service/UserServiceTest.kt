@@ -84,7 +84,6 @@ internal class UserServiceTest {
 
     @Test
     fun delete() {
-
         every { userRepository.existsById(id) } returns true
         every { userRepository.deleteById(id) } returns Unit
 

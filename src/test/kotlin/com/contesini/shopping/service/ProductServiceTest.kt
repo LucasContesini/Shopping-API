@@ -16,6 +16,9 @@ internal class ProductServiceTest {
     private lateinit var productService: ProductService
     private lateinit var productRepository: ProductRepository
 
+    private val id = 1L
+    private val name = "Camiseta"
+
     @BeforeAll
     fun config() {
         productRepository = mockk()
@@ -24,7 +27,7 @@ internal class ProductServiceTest {
 
     @Test
     fun getAll() {
-        every { productRepository.findAll() } returns listOf(Product(1, "Camiseta"), Product(2, "Shorts"))
+        every { productRepository.findAll() } returns listOf(createProduct(), createProduct(2, "Shorts"))
 
         val all = productService.getAll()
 
@@ -33,9 +36,7 @@ internal class ProductServiceTest {
 
     @Test
     fun getById() {
-        val id = 1L
-        val name = "Camiseta"
-        every { productRepository.getById(id) } returns Product(1, name)
+        every { productRepository.getById(id) } returns createProduct()
 
         val product = productService.getById(id)
 
@@ -46,25 +47,23 @@ internal class ProductServiceTest {
 
     @Test
     fun create() {
-        val id = 100L
-        val name = "Produto Novo"
-        val newProduct = Product(name = name)
-        every { productRepository.save(newProduct) } returns Product(id, name)
+        val product = createProduct(name = name)
+        val newProduct = createProduct()
 
-        val createProduct = productService.create(newProduct)
+        every { productRepository.save(product) } returns newProduct
+
+        val createProduct = productService.create(product)
 
         assertThat(createProduct).isNotNull
-        assertThat(createProduct.id).isEqualTo(id)
-        assertThat(createProduct.name).isEqualTo(name)
+        assertThat(createProduct.id).isEqualTo(newProduct.id)
+        assertThat(createProduct.name).isEqualTo(newProduct.name)
     }
 
     @Test
     fun update() {
-        val id = 1L
-        val oldName = "Produto Antigo"
         val name = "Produto Novo"
-        val oldProduct = Product(id, oldName)
-        val newProduct = Product(id, name)
+        val oldProduct = createProduct()
+        val newProduct = createProduct(name = name)
 
         every { productRepository.existsById(id) } returns true
         every { productRepository.save(oldProduct) } returns newProduct
@@ -80,7 +79,7 @@ internal class ProductServiceTest {
     fun notFoundProductToUpdate() {
         val id = 100L
         val oldName = "Produto Antigo"
-        val oldProduct = Product(id, oldName)
+        val oldProduct = createProduct(id, oldName)
 
         every { productRepository.existsById(id) } returns false
 
@@ -90,8 +89,6 @@ internal class ProductServiceTest {
 
     @Test
     fun delete() {
-        val id = 1L
-
         every { productRepository.existsById(id) } returns true
         every { productRepository.deleteById(id) } returns Unit
 
@@ -110,4 +107,6 @@ internal class ProductServiceTest {
 
         assertThat(isDeleted).isFalse
     }
+
+    private fun createProduct(id: Long = this.id, name: String = this.name) = Product(id, name)
 }
