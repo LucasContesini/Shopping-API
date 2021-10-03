@@ -2,17 +2,16 @@ server:
   port: 8081
 spring:
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: org.h2.Driver
     initialization-mode: always
     platform: mysql
-    url: jdbc:mysql://localhost:1000/shopping
+    url: jdbc:h2:mem:marvel
     username: admin
     password: test
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5Dialect
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.H2Dialect
     generate-ddl: true
     show-sql: true
     hibernate:
